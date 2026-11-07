@@ -32,6 +32,23 @@ function getDigits(input) {
   return parseInt(result, 10);
 }
 
+function parseTime(time) {
+  const parts = time.split(':').map(Number);
+  return parts[0] * 60 + parts[1];
+}
+
+function fitsWorkingDay(workStart, workEnd, meetingStart, duration) {
+  const start = parseTime(meetingStart);
+  const end = start + duration;
+
+  if (start < parseTime(workStart)) {
+    return false;
+  }
+
+  return end <= parseTime(workEnd);
+}
+
 isLengthValid('проверяемая строка', 18);
 checkPalindrome('ДовОд');
 getDigits('агент 007');
+fitsWorkingDay('8:0', '10:0', '8:0', 120);
