@@ -1,5 +1,6 @@
 import {generatePictures} from './pictures.js';
+import {renderMiniatures} from './miniatures.js';
 
 const pictures = generatePictures();
 
-export {pictures};
+renderMiniatures(pictures);
