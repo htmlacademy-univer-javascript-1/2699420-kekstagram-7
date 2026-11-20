@@ -1395,3 +1395,27 @@ main {
 .hidden {
   display: none;
 }
+
+.img-upload__field-wrapper--error .text__hashtags,
+.img-upload__field-wrapper--error .text__description {
+  border: 2px solid #f04a4a;
+  box-shadow: 0 0 6px rgba(240, 74, 74, 0.6);
+}
+
+.text__error {
+  max-width: 450px;
+  margin: -14px auto 16px;
+  padding: 4px 10px;
+
+  font-size: 13px;
+  text-align: left;
+  text-transform: none;
+  color: #ffffff;
+
+  background-color: rgba(240, 74, 74, 0.85);
+  border-radius: 4px;
+}
+
+.text__description ~ .text__error {
+  margin-top: 4px;
+}
