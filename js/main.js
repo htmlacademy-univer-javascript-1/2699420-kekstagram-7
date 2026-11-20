@@ -1,5 +1,15 @@
-import {generatePictures} from './pictures.js';
+import {loadPictures} from './network.js';
+import {renderMiniatures} from './miniatures.js';
+import {notifyLoadError} from './notifications.js';
+import './upload-form.js';
 
-const pictures = generatePictures();
+async function start() {
+  try {
+    const pictures = await loadPictures();
+    renderMiniatures(pictures);
+  } catch (error) {
+    notifyLoadError(error.message);
+  }
+}
 
-export {pictures};
+start();
