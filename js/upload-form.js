@@ -1,4 +1,5 @@
 import {isFormValid, resetValidation} from './validation.js';
+import {resetEditor} from './image-editor.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const fileField = uploadForm.querySelector('#upload-file');
@@ -22,6 +23,7 @@ function openEditor() {
 function closeEditor() {
   uploadForm.reset();
   resetValidation();
+  resetEditor();
   editor.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditorEscKeydown);
