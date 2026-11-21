@@ -1,4 +1,5 @@
 const AVATAR_SIZE = 35;
+const COMMENTS_STEP = 5;
 
 const fullsize = document.querySelector('.big-picture');
 const fullsizeImage = fullsize.querySelector('.big-picture__img img');
@@ -6,9 +7,12 @@ const fullsizeLikes = fullsize.querySelector('.likes-count');
 const fullsizeCommentsTotal = fullsize.querySelector('.comments-count');
 const fullsizeCaption = fullsize.querySelector('.social__caption');
 const commentsList = fullsize.querySelector('.social__comments');
-const commentsCounter = fullsize.querySelector('.social__comment-count');
+const commentsShown = fullsize.querySelector('.social__comment-shown-count');
 const commentsLoader = fullsize.querySelector('.comments-loader');
 const closeButton = fullsize.querySelector('#picture-cancel');
+
+let pictureComments = [];
+let visibleCount = 0;
 
 function buildComment(comment) {
   const item = document.createElement('li');
@@ -28,9 +32,23 @@ function buildComment(comment) {
   return item;
 }
 
-function fillComments(comments) {
+function fillComments() {
+  const visibleComments = pictureComments.slice(0, visibleCount);
+
   commentsList.innerHTML = '';
-  comments.forEach((comment) => commentsList.appendChild(buildComment(comment)));
+  visibleComments.forEach((comment) => commentsList.appendChild(buildComment(comment)));
+  commentsShown.textContent = visibleComments.length;
+
+  if (visibleComments.length === pictureComments.length) {
+    commentsLoader.classList.add('hidden');
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
+}
+
+function onLoaderClick() {
+  visibleCount += COMMENTS_STEP;
+  fillComments();
 }
 
 function onEscKeydown(evt) {
@@ -51,10 +69,9 @@ function showFullsize(picture) {
   fullsizeLikes.textContent = picture.likes;
   fullsizeCommentsTotal.textContent = picture.comments.length;
   fullsizeCaption.textContent = picture.description;
-  fillComments(picture.comments);
-
-  commentsCounter.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
+  pictureComments = picture.comments;
+  visibleCount = COMMENTS_STEP;
+  fillComments();
 
   fullsize.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -62,5 +79,6 @@ function showFullsize(picture) {
 }
 
 closeButton.addEventListener('click', hideFullsize);
+commentsLoader.addEventListener('click', onLoaderClick);
 
 export {showFullsize};
