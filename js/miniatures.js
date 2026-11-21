@@ -1,3 +1,5 @@
+import {showFullsize} from './fullsize.js';
+
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -9,6 +11,11 @@ function buildMiniature(picture) {
   image.setAttribute('alt', picture.description);
   miniature.querySelector('.picture__comments').textContent = picture.comments.length;
   miniature.querySelector('.picture__likes').textContent = picture.likes;
+
+  miniature.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    showFullsize(picture);
+  });
 
   return miniature;
 }
