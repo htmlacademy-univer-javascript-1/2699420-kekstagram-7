@@ -23,6 +23,8 @@ function buildMiniature(picture) {
 function renderMiniatures(pictures) {
   const fragment = document.createDocumentFragment();
 
+  container.querySelectorAll('.picture').forEach((miniature) => miniature.remove());
+
   for (const picture of pictures) {
     fragment.appendChild(buildMiniature(picture));
   }
