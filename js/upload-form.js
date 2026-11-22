@@ -1,6 +1,7 @@
 import {isFormValid, resetValidation} from './validation.js';
 import {resetEditor} from './image-editor.js';
 import {uploadPicture} from './network.js';
+import {loadPhoto} from './photo-loader.js';
 import {notifySuccess, notifyError} from './notifications.js';
 
 const SubmitText = {
@@ -45,7 +46,13 @@ textFields.forEach((field) => {
   });
 });
 
-fileField.addEventListener('change', openEditor);
+fileField.addEventListener('change', () => {
+  if (loadPhoto(fileField.files[0])) {
+    openEditor();
+  } else {
+    fileField.value = '';
+  }
+});
 
 closeButton.addEventListener('click', (evt) => {
   evt.preventDefault();
