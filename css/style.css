@@ -1419,3 +1419,25 @@ main {
 .text__description ~ .text__error {
   margin-top: 4px;
 }
+
+.error {
+  z-index: 3;
+}
+
+.data-error {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+
+  padding: 18px 20px;
+
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+  color: #ffffff;
+
+  background-color: #c0392b;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+}

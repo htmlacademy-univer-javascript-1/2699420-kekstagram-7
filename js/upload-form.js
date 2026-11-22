@@ -1,10 +1,18 @@
 import {isFormValid, resetValidation} from './validation.js';
 import {resetEditor} from './image-editor.js';
+import {uploadPicture} from './network.js';
+import {notifySuccess, notifyError} from './notifications.js';
+
+const SubmitText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Отправляю...',
+};
 
 const uploadForm = document.querySelector('#upload-select-image');
 const fileField = uploadForm.querySelector('#upload-file');
 const editor = uploadForm.querySelector('.img-upload__overlay');
 const closeButton = uploadForm.querySelector('#upload-cancel');
+const submitButton = uploadForm.querySelector('#upload-submit');
 const textFields = uploadForm.querySelectorAll('.text__hashtags, .text__description');
 
 function onEditorEscKeydown(evt) {
@@ -44,8 +52,27 @@ closeButton.addEventListener('click', (evt) => {
   closeEditor();
 });
 
-uploadForm.addEventListener('submit', (evt) => {
+function toggleSubmitButton(isSending) {
+  submitButton.disabled = isSending;
+  submitButton.textContent = isSending ? SubmitText.SENDING : SubmitText.IDLE;
+}
+
+uploadForm.addEventListener('submit', async (evt) => {
+  evt.preventDefault();
+
   if (!isFormValid()) {
-    evt.preventDefault();
+    return;
+  }
+
+  toggleSubmitButton(true);
+
+  try {
+    await uploadPicture(new FormData(uploadForm));
+    closeEditor();
+    notifySuccess();
+  } catch (error) {
+    notifyError();
+  } finally {
+    toggleSubmitButton(false);
   }
 });
